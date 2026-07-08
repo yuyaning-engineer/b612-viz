@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AuraFlow · Resonance — The Little Prince Visualizer</title>
+  <script type="module" crossorigin src="./assets/index-4Sk4kNKl.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-PTvTnJE8.css">
+</head>
+<body>
+  <canvas id="stage"></canvas>
+
+  <!-- Top-left brand -->
+  <header class="brand">
+    <div class="logo">Aura<span>Flow</span></div>
+    <div class="tag">Generative Audio-Visual System</div>
+  </header>
+
+  <!-- Rotating Little Prince quote -->
+  <section class="quote" id="quote">
+    <p class="zh" id="q-zh">只有用心灵才能看得清。实质性的东西，用眼睛是看不见的。</p>
+    <p class="en" id="q-en">One sees clearly only with the heart. What is essential is invisible to the eye.</p>
+    <p class="by">— ANTOINE DE SAINT-EXUPÉRY</p>
+  </section>
+
+  <!-- Signal readout -->
+  <aside class="panel" id="panel">
+    <div class="panel-title">SIGNAL</div>
+    <div class="meter"><label>低频 BASS</label><div class="bar"><i id="m-bass"></i></div></div>
+    <div class="meter"><label>中频 MIDS</label><div class="bar"><i id="m-mid"></i></div></div>
+    <div class="meter"><label>高频 HIGHS</label><div class="bar"><i id="m-high"></i></div></div>
+    <div class="meter"><label>能量 ENERGY</label><div class="bar"><i id="m-energy"></i></div></div>
+  </aside>
+
+  <!-- How-it-works toggle -->
+  <button class="howto-btn" id="btn-howto">✦ 原理</button>
+
+  <!-- Explainer (source video part 2) -->
+  <section class="howto" id="howto">
+    <div class="howto-inner">
+      <h2>🎵 1. 声音属性提取</h2>
+      <p class="lead">应用将音频信号拆分为四个核心维度（基于 FFT 快速傅里叶变换）：</p>
+      <div class="bands">
+        <div class="band"><b class="b-bass">低频 (Bass)</b><span>0–250Hz · 代表音乐的鼓点和基底。</span></div>
+        <div class="band"><b class="b-mid">中频 (Mids)</b><span>捕捉人声或主要旋律乐器的能量。</span></div>
+        <div class="band"><b class="b-high">高频 (Highs)</b><span>捕捉打击乐的高音、铃声和空气感。</span></div>
+        <div class="band"><b class="b-energy">总体能量</b><span>代表声音的宏观响度。</span></div>
+      </div>
+      <canvas id="spectrum" width="640" height="120"></canvas>
+      <p class="spectrum-cap">↑ 实时频谱 · 红=低频 黄=中频 青=高频</p>
+
+      <h2>✨ 2. 可视化映射关系</h2>
+      <p class="lead">物理公式将音频数据转化为情感化的动态。<em>拖动下方滑块</em>，背后的 B612 场景会实时共鸣。</p>
+      <div class="sim">
+        <div class="sim-row">
+          <label>低频 BASS <i id="sv-bass">–</i></label>
+          <input type="range" id="sim-bass" min="0" max="100" value="0">
+          <span class="fx">效果：玫瑰绽放、星球震动</span>
+        </div>
+        <div class="sim-row">
+          <label>中频 MIDS <i id="sv-mid">–</i></label>
+          <input type="range" id="sim-mid" min="0" max="100" value="0">
+          <span class="fx">效果：围巾大幅摆动</span>
+        </div>
+        <div class="sim-row">
+          <label>高频 HIGHS <i id="sv-high">–</i></label>
+          <input type="range" id="sim-high" min="0" max="100" value="0">
+          <span class="fx">效果：围巾颤动、流星生成</span>
+        </div>
+        <div class="sim-row">
+          <label>能量 ENERGY <i id="sv-energy">–</i></label>
+          <input type="range" id="sim-energy" min="0" max="100" value="0">
+          <span class="fx">效果：色彩饱和度、星空亮度</span>
+        </div>
+        <button id="sim-off" class="sim-release">↩ 释放模拟，回到真实音频</button>
+      </div>
+      <div class="formulas">
+        <div class="f-title">代码背后的公式：</div>
+        <code>围巾_Y = (Mid × sin(x)) + (High × noise(x))</code>
+        <code>玫瑰_缩放 = 1.0 + (Bass × 0.5)</code>
+        <code>星空亮度 / 饱和度 ∝ Energy</code>
+        <code>流星生成 ← High 瞬态跃升</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- Start overlay -->
+  <div class="overlay" id="overlay">
+    <div class="card">
+      <h1>万物共鸣</h1>
+      <p class="sub">Bloomsion · 让声音在 B612 星球上开花</p>
+      <div class="btns">
+        <button id="btn-demo" class="primary">▶ 播放示例曲</button>
+        <button id="btn-mic">🎙 麦克风</button>
+        <label class="filebtn">📁 我的音乐<input type="file" id="file" accept="audio/*" hidden></label>
+        <button id="btn-sys" hidden>🔊 系统声音</button>
+      </div>
+      <p class="hint">把音乐文件直接拖进页面也可以 · 平板放在音响旁用麦克风即可跟随</p>
+    </div>
+  </div>
+
+</body>
+</html>
